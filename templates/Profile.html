@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Profile · Idealchat</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}?v=8">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="{{ url_for('chat') }}">Idealchat</a>
+      <div class="row">
+        <a class="btn ghost" href="{{ url_for('chat') }}">Chats</a>
+        <a class="btn ghost" href="{{ url_for('logout') }}">Sign out</a>
+      </div>
+    </header>
+    <div class="card" style="max-width:560px;margin:12px auto 40px">
+      <p class="tiny">@{{ me.username }}</p>
+      <h1 style="font-size:32px">Your profile</h1>
+      <p class="lead">This profile belongs only to your account. Other people cannot edit it.</p>
+      {% if error %}<p class="note">{{ error }}</p>{% endif %}
+      {% if saved %}<p class="ok">Saved.</p>{% endif %}
+      <form method="post">
+        <label class="field"><span>Display name</span><input name="display_name" value="{{ me.display_name }}" required maxlength="40"></label>
+        <label class="field"><span>Status</span><input name="status_text" value="{{ me.status_text }}" maxlength="80"></label>
+        <label class="field"><span>Bio</span><textarea name="bio" rows="4" maxlength="160">{{ me.bio }}</textarea></label>
+        <button class="btn" type="submit">Save profile</button>
+      </form>
+    </div>
+    <div class="card" style="max-width:560px;margin:0 auto 80px">
+      <h2>Blocked</h2>
+      <p class="lead">Blocked people are hidden and cannot message you.</p>
+      {% if not blocked %}<p class="tiny">Nobody is blocked.</p>{% endif %}
+      {% for person in blocked %}
+        <form method="post" action="{{ url_for('api_unblock') }}" class="row" style="justify-content:space-between;padding:10px 0;border-top:1px solid var(--border)">
+          <div>
+            <strong>{{ person.display_name }}</strong>
+            <div class="tiny">@{{ person.username }}</div>
+          </div>
+          <button class="btn ghost" type="button" data-unblock="{{ person.username }}">Unblock</button>
+        </form>
+      {% endfor %}
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll("[data-unblock]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await fetch("/api/unblock", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: btn.dataset.unblock }),
+        });
+        location.reload();
+      });
+    });
+  </script>
+</body>
+</html>

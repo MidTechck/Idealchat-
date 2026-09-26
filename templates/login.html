@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% if mode == 'login' %}Sign in{% else %}Idealchat{% endif %} · Idealchat</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}?v=8">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M4 12c0-4.4 3.6-8 8-8h2v4h6v6c0 4.4-3.6 8-8 8h-2v-4H4v-6Z" stroke="#fff" stroke-width="1.8"/></svg>
+        </span>
+        Idealchat
+      </a>
+      <div class="row hide-narrow">
+        <a class="btn ghost" href="{{ url_for('login') }}">Sign in</a>
+        <a class="btn" href="{{ url_for('signin') }}">Create account</a>
+      </div>
+    </header>
+
+    {% if mode == 'login' %}
+    <div class="card auth-card">
+      <p class="kicker">Welcome back</p>
+      <h1 style="font-size:clamp(28px,6vw,36px)">Sign in</h1>
+      {% if error %}<p class="note">{{ error }}</p>{% endif %}
+      <form method="post" action="{{ url_for('login') }}">
+        <label class="field"><span>Username</span><input name="username" autocomplete="username" required maxlength="20"></label>
+        <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" required></label>
+        <button class="btn" type="submit">Sign in</button>
+      </form>
+      <p class="tiny" style="margin-top:16px">No account yet? <a href="{{ url_for('signin') }}">Create one</a></p>
+    </div>
+    {% else %}
+    <section class="hero">
+      <div>
+        <p class="kicker">Private messenger</p>
+        <h1>Talk in real time. Keep every profile yours.</h1>
+        <p class="lead">Free 1-to-1 chat. Search a username, send a request, and message only after they accept. Block hides them and stops their messages.</p>
+        <div class="hero-actions">
+          <a class="btn" href="{{ url_for('signin') }}">Create a free account</a>
+          <a class="btn ghost" href="{{ url_for('login') }}">I already have an account</a>
+        </div>
+      </div>
+      <div class="card">
+        <p class="kicker">Sign in</p>
+        {% if error %}<p class="note">{{ error }}</p>{% endif %}
+        <form method="post" action="{{ url_for('login') }}">
+          <label class="field"><span>Username</span><input name="username" autocomplete="username" required maxlength="20"></label>
+          <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" required></label>
+          <button class="btn" type="submit">Sign in</button>
+        </form>
+      </div>
+    </section>
+    <section class="grid-2">
+      <article class="tile"><h2>Find people by username</h2><p>Search, send a request, and chat only after they accept.</p></article>
+      <article class="tile"><h2>Private 1-to-1 chats</h2><p>Messages stay between you and the other person. No group chats.</p></article>
+      <article class="tile"><h2>Friends and blocking</h2><p>Add friends. Block hides them and stops their messages.</p></article>
+      <article class="tile"><h2>Live conversation tools</h2><p>Online, last seen, typing, delivered and read ticks.</p></article>
+    </section>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Chats · Idealchat</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}?v=8">
+</head>
+<body class="page-chat">
+  <div class="app-shell" id="shell">
+    <aside class="rail">
+      <div class="rail-head">
+        <a class="brand" href="{{ url_for('chat') }}">Idealchat</a>
+        <a class="btn ghost" href="{{ url_for('profile') }}">Profile</a>
+      </div>
+      <div class="tabs">
+        <button class="tab on" data-tab="chats" type="button">Chats</button>
+        <button class="tab" data-tab="people" type="button">People</button>
+        <button class="tab" data-tab="requests" type="button">Requests <span id="req-count"></span></button>
+      </div>
+      <div id="pane-chats" class="list"></div>
+      <div id="pane-people" class="list" hidden>
+        <div class="search-box">
+          <input id="search" placeholder="Search username" maxlength="20" autocomplete="off">
+        </div>
+        <div id="people-results"></div>
+      </div>
+      <div id="pane-requests" class="list" hidden></div>
+    </aside>
+    <section class="thread" id="thread">
+      <div class="thread-head">
+        <button class="icon-btn" id="back" type="button" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="avatar sm" id="thread-avatar">I</div>
+        <div class="who">
+          <div id="thread-name">Select a chat</div>
+          <div class="tiny" id="thread-status">Private 1-to-1 messages</div>
+        </div>
+        <button class="text-btn" id="block-btn" type="button" hidden>Block</button>
+      </div>
+      <div class="messages" id="messages">
+        <div class="empty">Search a username, send a request, and chat after they accept.</div>
+      </div>
+      <form class="composer" id="composer" hidden>
+        <textarea id="draft" rows="1" maxlength="4000" placeholder="Message"></textarea>
+        <button class="send-btn" type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3.4 20.6L21 12 3.4 3.4 3 10l11 2L3 14z"/></svg>
+        </button>
+      </form>
+    </section>
+  </div>
+  <script>window.ME = {{ me.id|tojson }};</script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="{{ url_for('static', filename='js/chat.js') }}?v=8"></script>
+</body>
+</html>
