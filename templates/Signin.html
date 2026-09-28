@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Create account · Idealchat</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}?v=8">
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/">Idealchat</a>
+      <a class="btn ghost" href="{{ url_for('login') }}">Sign in</a>
+    </header>
+    <div class="card" style="max-width:440px;margin:40px auto 80px">
+      <p class="kicker">Free account</p>
+      <h1 style="font-size:32px">Create your profile</h1>
+      <p class="lead">Your username is unique. Other people find you with it, then they must accept before you can chat.</p>
+      {% if error %}<p class="note">{{ error }}</p>{% endif %}
+      <form method="post">
+        <label class="field"><span>Username</span><input name="username" required maxlength="20" pattern="[a-zA-Z0-9_]{3,20}" placeholder="maya_k"></label>
+        <label class="field"><span>Display name</span><input name="display_name" required maxlength="40" placeholder="Maya"></label>
+        <label class="field"><span>Password</span><input name="password" type="password" required minlength="6"></label>
+        <button class="btn" type="submit">Create account</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
